@@ -88,7 +88,7 @@
                     <div class="p-4 rounded-2xl border border-slate-100 hover:border-blue-200 bg-slate-50/50 hover:bg-blue-50/20 transition-all flex items-center justify-between gap-4">
                         <div class="flex items-center gap-3.5">
                             <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs shrink-0">
-                                #{{ $slide->order }}
+                                {{ $slide->order }}
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-slate-900">{{ $slide->title }}</h3>

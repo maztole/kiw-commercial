@@ -11,6 +11,12 @@ use Illuminate\View\View;
 
 class SlideItemController extends Controller
 {
+    public function index(Slide $slide): View
+    {
+        $slide->load(['items' => fn($q) => $q->orderBy('order')]);
+        return view('admin.slides.items', compact('slide'));
+    }
+
     public function create(Slide $slide): View
     {
         $nextOrder = ($slide->items()->max('order') ?? 0) + 1;
@@ -23,7 +29,7 @@ class SlideItemController extends Controller
             'title' => 'required|string|max:150',
             'subtitle' => 'nullable|string|max:200',
             'url' => 'nullable|string|max:500',
-            'action_type' => 'required|string|in:whatsapp,modal_inquiry,modal_detail,call,map,link',
+            'action_type' => 'required|string|in:whatsapp,modal_inquiry,modal_detail,call,map,link,email',
             'badge' => 'nullable|string|max:50',
             'icon' => 'nullable|string|max:50',
             'detail_content' => 'nullable|string|max:2000',
@@ -32,10 +38,26 @@ class SlideItemController extends Controller
         ]);
 
         $validated['is_active'] = $request->boolean('is_active', true);
+
+        // Pastikan format URL telepon diawali dengan tel:
+        if ($validated['action_type'] === 'call' && !empty($validated['url'])) {
+            if (!str_starts_with($validated['url'], 'tel:')) {
+                $cleanNumber = preg_replace('/[^0-9+]/', '', $validated['url']);
+                $validated['url'] = 'tel:' . $cleanNumber;
+            }
+        }
+
+        // Pastikan format URL email diawali dengan mailto:
+        if ($validated['action_type'] === 'email' && !empty($validated['url'])) {
+            if (!str_starts_with($validated['url'], 'mailto:')) {
+                $validated['url'] = 'mailto:' . trim($validated['url']);
+            }
+        }
+
         $slide->items()->create($validated);
 
-        return redirect()->route('admin.slides.edit', $slide)
-            ->with('success', 'Item berhasil ditambahkan ke slide!');
+        return redirect()->route('admin.slides.items.index', $slide)
+            ->with('success', 'Tombol berhasil ditambahkan ke kartu!');
     }
 
     public function edit(SlideItem $item): View
@@ -50,7 +72,7 @@ class SlideItemController extends Controller
             'title' => 'required|string|max:150',
             'subtitle' => 'nullable|string|max:200',
             'url' => 'nullable|string|max:500',
-            'action_type' => 'required|string|in:whatsapp,modal_inquiry,modal_detail,call,map,link',
+            'action_type' => 'required|string|in:whatsapp,modal_inquiry,modal_detail,call,map,link,email',
             'badge' => 'nullable|string|max:50',
             'icon' => 'nullable|string|max:50',
             'detail_content' => 'nullable|string|max:2000',
@@ -59,10 +81,26 @@ class SlideItemController extends Controller
         ]);
 
         $validated['is_active'] = $request->boolean('is_active');
+
+        // Pastikan format URL telepon diawali dengan tel:
+        if ($validated['action_type'] === 'call' && !empty($validated['url'])) {
+            if (!str_starts_with($validated['url'], 'tel:')) {
+                $cleanNumber = preg_replace('/[^0-9+]/', '', $validated['url']);
+                $validated['url'] = 'tel:' . $cleanNumber;
+            }
+        }
+
+        // Pastikan format URL email diawali dengan mailto:
+        if ($validated['action_type'] === 'email' && !empty($validated['url'])) {
+            if (!str_starts_with($validated['url'], 'mailto:')) {
+                $validated['url'] = 'mailto:' . trim($validated['url']);
+            }
+        }
+
         $item->update($validated);
 
-        return redirect()->route('admin.slides.edit', $item->slide_id)
-            ->with('success', 'Item "' . $item->title . '" berhasil diperbarui!');
+        return redirect()->route('admin.slides.items.index', $item->slide_id)
+            ->with('success', 'Tombol "' . $item->title . '" berhasil diperbarui!');
     }
 
     public function destroy(SlideItem $item): RedirectResponse
@@ -71,7 +109,7 @@ class SlideItemController extends Controller
         $title = $item->title;
         $item->delete();
 
-        return redirect()->route('admin.slides.edit', $slideId)
-            ->with('success', 'Item "' . $title . '" berhasil dihapus.');
+        return redirect()->route('admin.slides.items.index', $slideId)
+            ->with('success', 'Tombol "' . $title . '" berhasil dihapus.');
     }
 }

@@ -30,6 +30,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('slides', SlideController::class)->except(['show']);
 
     // Slide Items Management
+    Route::get('/slides/{slide}/items', [SlideItemController::class, 'index'])->name('slides.items.index');
     Route::get('/slides/{slide}/items/create', [SlideItemController::class, 'create'])->name('slides.items.create');
     Route::post('/slides/{slide}/items', [SlideItemController::class, 'store'])->name('slides.items.store');
     Route::get('/items/{item}/edit', [SlideItemController::class, 'edit'])->name('items.edit');

@@ -21,59 +21,31 @@
         <form action="{{ route('admin.slides.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
             @csrf
 
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1.5">Judul Kartu *</label>
-                <input type="text" name="title" value="{{ old('title') }}" required placeholder="Contoh: FASILITAS & UNIT KAWASAN"
-                       class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
-                <span class="text-[11px] text-slate-400">Judul kelompok kartu yang tampil kepada pengunjung.</span>
-            </div>
-
-            <div>
-                <label class="block text-xs font-semibold text-slate-700 mb-1.5">Subjudul Kartu *</label>
-                <input type="text" name="subtitle" value="{{ old('subtitle') }}" required placeholder="Contoh: Layanan Sewa SFB & Kavling Industri Siap Bangun"
-                       class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
-                <span class="text-[11px] text-slate-400">Deskripsi singkat di bawah judul kartu.</span>
-            </div>
-
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">Label Navigasi Menu *</label>
-                    <input type="text" name="nav_label" value="{{ old('nav_label') }}" required placeholder="Contoh: Unit Kawasan"
+                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">Judul Kartu *</label>
+                    <input type="text" name="title" value="{{ old('title') }}" required placeholder="Contoh: FASILITAS & UNIT KAWASAN"
                            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
-                    <span class="text-[11px] text-slate-400">Label penanda bagian kartu.</span>
+                    <span class="text-[11px] text-slate-400">Judul kelompok kartu yang tampil kepada pengunjung.</span>
                 </div>
 
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1.5">Nomor Urutan Tampilan *</label>
                     <input type="number" name="order" value="{{ old('order', $nextOrder) }}" min="1" required
                            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 font-mono focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+                    <span class="text-[11px] text-slate-400">Urutan kartu saat digeser (1 = kartu pertama).</span>
                 </div>
             </div>
 
-            <!-- Card Banner Image (Optional) -->
-            <div class="p-4 rounded-2xl bg-slate-50/70 border border-slate-200/80">
-                <label class="block text-xs font-semibold text-slate-700 mb-1.5">Upload Gambar Banner Kartu (Opsional)</label>
-                <input type="file" name="banner_image_file" accept="image/*"
-                       class="text-xs text-slate-500 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
-                <span class="block text-[11px] text-slate-400 mt-1">Jika dikosongkan, kartu akan menggunakan banner gradasi otomatis sesuai preset tema.</span>
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1.5">Subjudul Kartu (Opsional)</label>
+                <input type="text" name="subtitle" value="{{ old('subtitle') }}" placeholder="Contoh: Layanan Sewa SFB & Kavling Industri Siap Bangun"
+                       class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+                <span class="text-[11px] text-slate-400">Deskripsi singkat atau petunjuk di bawah judul kartu.</span>
             </div>
 
-            <!-- Custom Card Colors (Optional Override) -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">Warna Background Kartu Khusus (Opsional)</label>
-                    <input type="text" name="card_bg" value="{{ old('card_bg') }}" placeholder="Default dari Tema Global"
-                           class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-800 font-mono focus:bg-white focus:border-blue-500">
-                    <span class="text-[10px] text-slate-400">Biarkan kosong untuk mengikuti warna tema global.</span>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1.5">Warna Teks Kartu Khusus (Opsional)</label>
-                    <input type="text" name="card_text" value="{{ old('card_text') }}" placeholder="Default dari Tema Global"
-                           class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-sm text-slate-800 font-mono focus:bg-white focus:border-blue-500">
-                    <span class="text-[10px] text-slate-400">Biarkan kosong untuk mengikuti warna tema global.</span>
-                </div>
-            </div>
+            <!-- Hidden Inputs for backwards compatibility -->
+            <input type="hidden" name="nav_label" value="{{ old('nav_label') }}">
 
             <div class="pt-2">
                 <label class="flex items-center gap-2.5 cursor-pointer">

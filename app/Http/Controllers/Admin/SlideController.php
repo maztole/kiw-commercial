@@ -33,11 +33,15 @@ class SlideController extends Controller
             'banner_grad' => 'nullable|string|max:100',
             'card_bg' => 'nullable|string|max:30',
             'card_text' => 'nullable|string|max:30',
-            'nav_label' => 'required|string|max:50',
+            'nav_label' => 'nullable|string|max:50',
             'icon' => 'nullable|string|max:50',
             'order' => 'required|integer|min:1',
             'is_active' => 'nullable|boolean',
         ]);
+
+        if (empty($validated['nav_label'])) {
+            $validated['nav_label'] = $validated['title'];
+        }
 
         if ($request->hasFile('banner_image_file')) {
             $file = $request->file('banner_image_file');
@@ -73,11 +77,15 @@ class SlideController extends Controller
             'banner_grad' => 'nullable|string|max:100',
             'card_bg' => 'nullable|string|max:30',
             'card_text' => 'nullable|string|max:30',
-            'nav_label' => 'required|string|max:50',
+            'nav_label' => 'nullable|string|max:50',
             'icon' => 'nullable|string|max:50',
             'order' => 'required|integer|min:1',
             'is_active' => 'nullable|boolean',
         ]);
+
+        if (empty($validated['nav_label'])) {
+            $validated['nav_label'] = $validated['title'];
+        }
 
         if ($request->boolean('remove_banner_image')) {
             $validated['banner_image'] = null;

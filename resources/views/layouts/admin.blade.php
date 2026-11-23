@@ -9,13 +9,14 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <style>
         body { font-family: 'Inter', sans-serif; }
         .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', Georgia, Cambria, serif; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex" 
@@ -43,9 +44,9 @@
          class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 lg:hidden"
          style="display: none;"></div>
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR (Fixed / Sticky on Desktop so it stays in place when scrolling) -->
     <aside :class="sidebarOpen ? 'translate-x-0 w-72 lg:w-72' : '-translate-x-full lg:translate-x-0 w-72 lg:w-20'"
-           class="fixed inset-y-0 left-0 z-50 bg-white border-r border-slate-200 flex flex-col justify-between transition-all duration-300 ease-in-out lg:static shadow-xl lg:shadow-none overflow-x-hidden shrink-0 select-none">
+           class="fixed inset-y-0 left-0 z-50 bg-white border-r border-slate-200 flex flex-col justify-between transition-all duration-300 ease-in-out lg:sticky lg:top-0 lg:h-screen shadow-xl lg:shadow-none overflow-x-hidden shrink-0 select-none">
         
         <div class="w-full h-full flex flex-col justify-between overflow-y-auto overflow-x-hidden">
             <div>

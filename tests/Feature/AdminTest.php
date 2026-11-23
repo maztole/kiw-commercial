@@ -10,6 +10,18 @@ use Tests\TestCase;
 
 class AdminTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        if (!User::where('email', 'admin@kiw.co.id')->exists()) {
+            User::factory()->create([
+                'name' => 'Administrator KIW',
+                'email' => 'admin@kiw.co.id',
+                'password' => bcrypt('admin123'),
+            ]);
+        }
+    }
+
     public function test_admin_can_view_login_page(): void
     {
         $response = $this->get('/login');
